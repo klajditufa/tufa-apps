@@ -1,0 +1,8 @@
+{
+  "app": "flota",
+  "version": "1.0.0",
+  "released": "2026-09-30",
+  "windows": "https://apps.tufa.al/downloads/Flota-Setup-1.0.0.exe",
+  "android": "https://apps.tufa.al/downloads/Flota-1.0.0.apk",
+  "notes": "Versioni i parë: kalendari, qiratë, kontrata PDF, dorëzimi/kthimi me foto, shpenzimet, raportet, sinjalizimet, administrimi."
+}
