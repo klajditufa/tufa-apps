@@ -1,8 +1,8 @@
 {
     "app":  "flota",
-    "version":  "1.0.2",
+    "version":  "1.0.3",
     "released":  "2026-10-02",
-    "windows":  "https://apps.tufa.al/downloads/Flota-Setup-1.0.2.exe",
-    "android":  "https://apps.tufa.al/downloads/Flota-1.0.2.apk",
-    "notes":  "Ikona e re e aplikacionit; butonat Politika e privatësisë dhe Kërko fshirjen e llogarisë te Cilësimet; përgatitje për Play Store."
+    "windows":  "https://apps.tufa.al/downloads/Flota-Setup-1.0.3.exe",
+    "android":  "https://apps.tufa.al/downloads/Flota-1.0.3.apk",
+    "notes":  "Dokumentet e qiramarrësit: foto ose PDF e patentës dhe ID/pasaportës te qiraja (opsionale), shfaqen edhe te kontrata."
 }
