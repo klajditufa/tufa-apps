@@ -1,8 +1,8 @@
 {
     "app":  "flota",
-    "version":  "1.0.1",
-    "released":  "2026-10-01",
-    "windows":  "https://apps.tufa.al/downloads/Flota-Setup-1.0.1.exe",
-    "android":  "https://apps.tufa.al/downloads/Flota-1.0.1.apk",
-    "notes":  "Qendra e administrimit (kompanitë, përdoruesit, pagesat, hap si kompania), foto/PDF për dokumentet e makinës, datëlindja nga viti 1900, instaluesi me bibliotekat VC++."
+    "version":  "1.0.2",
+    "released":  "2026-10-02",
+    "windows":  "https://apps.tufa.al/downloads/Flota-Setup-1.0.2.exe",
+    "android":  "https://apps.tufa.al/downloads/Flota-1.0.2.apk",
+    "notes":  "Ikona e re e aplikacionit; butonat Politika e privatësisë dhe Kërko fshirjen e llogarisë te Cilësimet; përgatitje për Play Store."
 }
