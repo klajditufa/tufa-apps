@@ -1,8 +1,8 @@
 {
     "app":  "flota",
-    "version":  "1.0.5",
+    "version":  "1.2.3",
     "released":  "2026-10-06",
-    "windows":  "https://apps.tufa.al/downloads/Flota-Setup-1.0.5.exe",
-    "android":  "https://apps.tufa.al/downloads/Flota-1.0.5.apk",
-    "notes":  "Fjalëkalimi: rivendosje nga linku i emailit (faqja fjalekalimi.html), «Ndrysho fjalëkalimin» te Cilësimet; Windows njofton kur del version i ri."
+    "windows":  "https://apps.tufa.al/downloads/Flota-Setup-1.2.3.exe",
+    "android":  "https://apps.tufa.al/downloads/Flota-1.2.3.apk",
+    "notes":  "Dizajni i ri, klientët, kërkimi në kalendar; fjalëkalimi: rivendosje nga linku i emailit dhe «Ndrysho fjalëkalimin» te Cilësimet; Windows njofton kur del version i ri."
 }
