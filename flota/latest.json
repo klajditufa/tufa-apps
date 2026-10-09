@@ -1,8 +1,8 @@
 {
     "app":  "flota",
-    "version":  "1.3.1",
+    "version":  "1.3.0",
     "released":  "2026-10-09",
-    "windows":  "https://apps.tufa.al/downloads/Flota-Setup-1.3.1.exe",
-    "android":  "https://apps.tufa.al/downloads/Flota-1.3.1.apk",
-    "notes":  "Kontrata PDF me pamje të re: palët dhe automjeti në dy kolona, «Paguar / Mbetet për t\u0027u paguar», skema e makinës me dëmtimet dhe karburanti në faqen e parë; fusha «Paguar deri tani» te qiraja."
+    "windows":  "https://apps.tufa.al/downloads/Flota-Setup-1.3.0.exe",
+    "android":  "https://apps.tufa.al/downloads/Flota-1.3.0.apk",
+    "notes":  "Skano dokumentin: fotografo ID-në, pasaportën ose patentën dhe të dhënat e klientit plotësohen vetë; njoftim kur klienti ekziston më parë; lloji i dokumentit dhe skadimi i patentës te klienti."
 }
