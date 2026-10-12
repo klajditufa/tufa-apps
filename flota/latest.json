@@ -1,8 +1,8 @@
 {
     "app":  "flota",
-    "version":  "1.3.0",
-    "released":  "2026-10-09",
-    "windows":  "https://apps.tufa.al/downloads/Flota-Setup-1.3.0.exe",
-    "android":  "https://apps.tufa.al/downloads/Flota-1.3.0.apk",
-    "notes":  "Skano dokumentin: fotografo ID-në, pasaportën ose patentën dhe të dhënat e klientit plotësohen vetë; njoftim kur klienti ekziston më parë; lloji i dokumentit dhe skadimi i patentës te klienti."
+    "version":  "1.3.2",
+    "released":  "2026-10-12",
+    "windows":  "https://apps.tufa.al/downloads/Flota-Setup-1.3.2.exe",
+    "android":  "https://apps.tufa.al/downloads/Flota-1.3.2.apk",
+    "notes":  "Kontrata e re: dy faqe me firma në secilën; gjendja në dorëzim dhe në kthim me skicën e dëmtimeve (të vjetrat gri, të rejat të kuqe) dhe matësin e karburantit; Paguar dhe Mbetet për t\u0027u paguar. Te dorëzimi/kthimi: kilometrazhi si numërues dhe matës karburanti me gjilpërë."
 }
