@@ -1,0 +1,734 @@
+<!doctype html>
+<html lang="sq">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Flota Admin</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+  <style>
+    :root {
+      --ink: #14275f; --blue: #1e3fa8; --blue-soft: #dce4fa; --bg: #f4f6fa; --paper: #fff;
+      --line: #dfe3ec; --text: #1b1f27; --muted: #5b6675;
+      --green: #1e7a46; --green-soft: #ddf3e4; --amber: #8e5600; --amber-soft: #fff1cc;
+      --red: #b42323; --red-soft: #fde7e7; --grey-soft: #eceff4;
+      --r: 10px;
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; }
+    body { font-family: Manrope, system-ui, -apple-system, "Segoe UI", sans-serif; background: var(--bg); color: var(--text); font-size: 14px; line-height: 1.45; }
+    button, input, select, textarea { font: inherit; color: inherit; }
+    a { color: var(--blue); }
+    .hidden { display: none !important; }
+
+    /* hyrja */
+    .login { min-height: 100vh; display: grid; place-items: center; padding: 16px; }
+    .login form { width: 100%; max-width: 380px; background: var(--paper); border: 1px solid var(--line); border-radius: 14px; padding: 28px; box-shadow: 0 20px 50px -30px rgba(20,39,95,.4); }
+    .login h1 { margin: 0 0 4px; font-size: 1.35rem; color: var(--ink); }
+    .login p { margin: 0 0 18px; color: var(--muted); }
+    .mark { display: inline-grid; place-items: center; width: 28px; height: 28px; border-radius: 8px; background: var(--ink); color: #fff; font-weight: 800; margin-right: 8px; vertical-align: -6px; }
+
+    /* fushat */
+    label.f { display: block; margin-bottom: 12px; }
+    label.f > span { display: block; font-size: 12px; font-weight: 700; color: var(--muted); margin-bottom: 4px; }
+    input[type=text], input[type=email], input[type=password], input[type=number], input[type=date], input[type=search], select, textarea {
+      width: 100%; padding: 9px 11px; border: 1px solid var(--line); border-radius: 8px; background: #fff; outline: none;
+    }
+    input:focus, select:focus, textarea:focus { border-color: var(--blue); box-shadow: 0 0 0 3px var(--blue-soft); }
+    textarea { min-height: 90px; resize: vertical; }
+    .btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; padding: 8px 14px; border-radius: 8px; border: 1px solid var(--line); background: #fff; font-weight: 700; cursor: pointer; white-space: nowrap; }
+    .btn:hover { border-color: var(--blue); color: var(--blue); }
+    .btn.primary { background: var(--ink); border-color: var(--ink); color: #fff; }
+    .btn.primary:hover { background: var(--blue); border-color: var(--blue); color: #fff; }
+    .btn.danger { color: var(--red); }
+    .btn.danger:hover { border-color: var(--red); }
+    .btn.sm { padding: 5px 10px; font-size: 12.5px; }
+    .btn:disabled { opacity: .55; cursor: default; }
+    .btn.block { width: 100%; }
+    .err { color: var(--red); font-weight: 600; margin: 10px 0 0; }
+
+    /* koka */
+    .top { background: var(--ink); color: #fff; position: sticky; top: 0; z-index: 20; }
+    .top .in { max-width: 1320px; margin: 0 auto; padding: 0 16px; display: flex; align-items: center; gap: 18px; height: 56px; }
+    .top .brand { font-weight: 800; white-space: nowrap; }
+    .top .brand .mark { background: #fff; color: var(--ink); }
+    .tabs { display: flex; gap: 2px; overflow-x: auto; flex: 1; scrollbar-width: none; }
+    .tabs button { background: none; border: 0; color: #c9d3f0; font-weight: 700; padding: 8px 12px; border-radius: 8px; cursor: pointer; white-space: nowrap; }
+    .tabs button.on { background: rgba(255,255,255,.14); color: #fff; }
+    .tabs button .n { font-weight: 600; opacity: .7; margin-left: 4px; }
+    .who { display: flex; align-items: center; gap: 8px; font-size: 12.5px; color: #c9d3f0; }
+    .who .btn { background: transparent; color: #fff; border-color: rgba(255,255,255,.3); }
+    .who .btn:hover { border-color: #fff; color: #fff; }
+    @media (max-width: 760px) { .who .email { display: none; } .top .brand .t { display: none; } }
+
+    main { max-width: 1320px; margin: 0 auto; padding: 20px 16px 60px; }
+    h2 { font-size: 1.15rem; color: var(--ink); margin: 0 0 12px; }
+    h3 { font-size: .98rem; margin: 0 0 10px; color: var(--ink); }
+    .muted { color: var(--muted); }
+    .small { font-size: 12.5px; }
+
+    /* pasqyra */
+    .kpis { display: grid; grid-template-columns: repeat(auto-fill, minmax(165px, 1fr)); gap: 12px; margin-bottom: 20px; }
+    .kpi { background: var(--paper); border: 1px solid var(--line); border-radius: var(--r); padding: 14px 16px; cursor: pointer; text-align: left; }
+    .kpi:hover { border-color: var(--blue); }
+    .kpi b { display: block; font-size: 1.55rem; line-height: 1.1; color: var(--ink); }
+    .kpi span { color: var(--muted); font-size: 12.5px; font-weight: 600; }
+    .kpi.red b { color: var(--red); } .kpi.amber b { color: var(--amber); } .kpi.green b { color: var(--green); }
+    .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    @media (max-width: 900px) { .grid2 { grid-template-columns: 1fr; } }
+    .card { background: var(--paper); border: 1px solid var(--line); border-radius: var(--r); padding: 16px; }
+    .list { list-style: none; margin: 0; padding: 0; }
+    .list li { display: flex; align-items: center; gap: 10px; padding: 9px 0; border-top: 1px solid var(--line); cursor: pointer; }
+    .list li:first-child { border-top: 0; }
+    .list li:hover .nm { color: var(--blue); }
+    .list .nm { font-weight: 700; flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .empty { color: var(--muted); padding: 6px 0; }
+
+    /* shiritat */
+    .pill { display: inline-block; padding: 2px 9px; border-radius: 999px; font-size: 11.5px; font-weight: 700; white-space: nowrap; background: var(--grey-soft); color: var(--muted); }
+    .pill.green { background: var(--green-soft); color: var(--green); }
+    .pill.amber { background: var(--amber-soft); color: var(--amber); }
+    .pill.red { background: var(--red-soft); color: var(--red); }
+    .pill.blue { background: var(--blue-soft); color: var(--blue); }
+
+    /* veglat */
+    .toolbar { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 12px; }
+    .toolbar input[type=search] { max-width: 320px; }
+    .toolbar select { width: auto; }
+    .toolbar .sp { flex: 1; }
+    .chips { display: flex; flex-wrap: wrap; gap: 6px; }
+    .chip { border: 1px solid var(--line); background: #fff; border-radius: 999px; padding: 5px 11px; font-weight: 700; font-size: 12.5px; cursor: pointer; }
+    .chip.on { background: var(--ink); border-color: var(--ink); color: #fff; }
+    .chip .n { opacity: .65; margin-left: 3px; }
+
+    /* tabelat */
+    .tw { background: var(--paper); border: 1px solid var(--line); border-radius: var(--r); overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; }
+    th, td { text-align: left; padding: 9px 12px; border-bottom: 1px solid var(--line); vertical-align: top; }
+    th { font-size: 11.5px; text-transform: uppercase; letter-spacing: .03em; color: var(--muted); background: #fafbfd; position: sticky; top: 0; white-space: nowrap; }
+    tbody tr:last-child td { border-bottom: 0; }
+    tbody tr.click { cursor: pointer; }
+    tbody tr.click:hover td { background: #f7f9ff; }
+    td .nm { font-weight: 700; }
+    td.num, th.num { text-align: right; white-space: nowrap; }
+    td .sub { display: block; color: var(--muted); font-size: 12px; }
+    .nowrap { white-space: nowrap; }
+    .acts { display: flex; gap: 6px; flex-wrap: wrap; }
+
+    /* paneli anësor */
+    .scrim { position: fixed; inset: 0; background: rgba(15,23,48,.35); z-index: 30; }
+    .drawer { position: fixed; top: 0; right: 0; bottom: 0; width: min(640px, 100%); background: var(--bg); z-index: 31; overflow-y: auto; box-shadow: -20px 0 50px -20px rgba(15,23,48,.4); }
+    .drawer .hd { position: sticky; top: 0; background: var(--paper); border-bottom: 1px solid var(--line); padding: 14px 18px; display: flex; align-items: center; gap: 10px; z-index: 2; }
+    .drawer .hd h2 { margin: 0; flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .drawer .bd { padding: 16px 18px 40px; display: grid; gap: 14px; }
+    .kv { display: grid; grid-template-columns: 150px 1fr; gap: 6px 12px; margin: 0; }
+    .kv dt { color: var(--muted); font-weight: 600; }
+    .kv dd { margin: 0; font-weight: 600; overflow-wrap: anywhere; }
+    @media (max-width: 520px) { .kv { grid-template-columns: 1fr; } .kv dd { margin-bottom: 6px; } }
+    .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    @media (max-width: 520px) { .row2 { grid-template-columns: 1fr; } }
+    .quick { display: flex; flex-wrap: wrap; gap: 6px; margin: -4px 0 12px; }
+    .check { display: flex; align-items: center; gap: 8px; font-weight: 600; margin-bottom: 12px; cursor: pointer; }
+    .check input { width: 17px; height: 17px; }
+    .item { display: flex; gap: 10px; align-items: flex-start; padding: 10px 0; border-top: 1px solid var(--line); }
+    .item:first-of-type { border-top: 0; }
+    .item .grow { flex: 1; min-width: 0; }
+    .item .t { font-weight: 700; overflow-wrap: anywhere; }
+
+    /* dialogët */
+    dialog { border: 0; border-radius: 14px; padding: 0; width: min(460px, calc(100% - 32px)); box-shadow: 0 30px 80px -20px rgba(15,23,48,.5); }
+    dialog::backdrop { background: rgba(15,23,48,.4); }
+    dialog form { padding: 20px; }
+    dialog h3 { font-size: 1.05rem; margin-bottom: 14px; }
+    dialog .ft { display: flex; justify-content: flex-end; gap: 8px; margin-top: 6px; }
+    .pwrow { display: flex; gap: 6px; }
+    #pwVal { font-family: ui-monospace, Consolas, monospace; letter-spacing: .02em; }
+
+    .toast { position: fixed; left: 50%; bottom: 22px; transform: translateX(-50%); background: var(--ink); color: #fff; padding: 11px 18px; border-radius: 10px; font-weight: 600; z-index: 60; max-width: calc(100% - 32px); box-shadow: 0 14px 40px -12px rgba(15,23,48,.6); }
+    .toast.err { background: var(--red); }
+    .loading { padding: 60px 0; text-align: center; color: var(--muted); }
+  </style>
+</head>
+<body>
+  <!-- Hyrja -->
+  <section class="login hidden" id="login">
+    <form id="loginForm" autocomplete="on">
+      <h1><span class="mark">F</span>Flota · Administrimi</h1>
+      <p>Vetëm për administratorin e sistemit.</p>
+      <label class="f"><span>Email</span><input type="email" id="lEmail" autocomplete="username" required></label>
+      <label class="f"><span>Fjalëkalimi</span><input type="password" id="lPass" autocomplete="current-password" required></label>
+      <button class="btn primary block" id="lBtn" type="submit">Hyr</button>
+      <p class="err hidden" id="lErr"></p>
+    </form>
+  </section>
+
+  <!-- Paneli -->
+  <div id="app" class="hidden">
+    <header class="top">
+      <div class="in">
+        <span class="brand"><span class="mark">F</span><span class="t">Flota Admin</span></span>
+        <nav class="tabs" id="tabs"></nav>
+        <div class="who">
+          <span class="email" id="meEmail"></span>
+          <button class="btn sm" id="refresh" title="Rifresko të dhënat">↻</button>
+          <button class="btn sm" id="logout">Dil</button>
+        </div>
+      </div>
+    </header>
+    <main id="view"><div class="loading">Duke ngarkuar…</div></main>
+  </div>
+
+  <div class="scrim hidden" id="scrim"></div>
+  <aside class="drawer hidden" id="drawer" aria-label="Kompania"></aside>
+
+  <!-- Dialogu i fjalëkalimit -->
+  <dialog id="dPw">
+    <form method="dialog" id="fPw">
+      <h3>Fjalëkalim i ri</h3>
+      <p class="muted small" id="pwWho"></p>
+      <label class="f"><span>Fjalëkalimi (të paktën 8 shenja)</span>
+        <div class="pwrow"><input type="text" id="pwVal" minlength="8" required autocomplete="off" spellcheck="false"><button type="button" class="btn" id="pwGen">Gjenero</button></div>
+      </label>
+      <p class="muted small">Pas ruajtjes ia jep klientit me telefon ose mesazh. Ai mund ta ndryshojë vetë te Cilësimet → «Ndrysho fjalëkalimin».</p>
+      <p class="err hidden" id="pwErr"></p>
+      <div class="ft"><button type="button" class="btn" data-close>Anulo</button><button class="btn primary" id="pwSave" type="submit">Ruaj fjalëkalimin</button></div>
+    </form>
+  </dialog>
+
+  <!-- Dialogu i pagesës -->
+  <dialog id="dPay">
+    <form method="dialog" id="fPay">
+      <h3>Regjistro pagesë</h3>
+      <label class="f"><span>Kompania</span><select id="payCo" required></select></label>
+      <div class="row2">
+        <label class="f"><span>Shuma (€)</span><input type="number" id="payAmt" min="0" step="0.01" required></label>
+        <label class="f"><span>Mënyra</span><select id="payMethod"><option>Cash</option><option>Bankë</option><option>Tjetër</option></select></label>
+      </div>
+      <label class="f"><span>Data e pagesës</span><input type="date" id="payDate" required></label>
+      <label class="f"><span>Periudha që mbulon</span>
+        <div class="chips" id="payMonths">
+          <button type="button" class="chip on" data-m="1">1 muaj</button>
+          <button type="button" class="chip" data-m="3">3 muaj</button>
+          <button type="button" class="chip" data-m="6">6 muaj</button>
+          <button type="button" class="chip" data-m="12">1 vit</button>
+        </div>
+      </label>
+      <p class="small" id="payPeriod"></p>
+      <label class="check"><input type="checkbox" id="payExtend" checked><span id="payExtendLbl">Zgjat afatin dhe aktivizo kompaninë</span></label>
+      <label class="f"><span>Shënim (p.sh. nr. faturës, kush pagoi)</span><input type="text" id="payNote" maxlength="300"></label>
+      <p class="err hidden" id="payErr"></p>
+      <div class="ft"><button type="button" class="btn" data-close>Anulo</button><button class="btn primary" id="paySave" type="submit">Ruaj pagesën</button></div>
+    </form>
+  </dialog>
+
+  <!-- Konfirmimi -->
+  <dialog id="dConfirm">
+    <form method="dialog">
+      <h3 id="cTitle"></h3>
+      <p id="cText" class="muted"></p>
+      <div class="ft"><button class="btn" value="no">Anulo</button><button class="btn primary" id="cOk" value="yes">Po</button></div>
+    </form>
+  </dialog>
+
+  <div class="toast hidden" id="toast"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+  <script>
+  (function () {
+    'use strict';
+    const SB_URL = 'https://pdvfqddtmfsxhmqlxpfr.supabase.co';
+    const SB_KEY = 'sb_publishable_bg5DxVYaWFHXpBQcSCbTwQ_msE0WFpR';
+    const RESET_URL = 'https://apps.tufa.al/flota/fjalekalimi.html';
+    const sb = supabase.createClient(SB_URL, SB_KEY, { auth: { storageKey: 'flotaadmin-auth', persistSession: true, autoRefreshToken: true } });
+
+    const $ = (id) => document.getElementById(id);
+    const DAY = 864e5;
+    const S = { me: null, companies: [], settings: {}, stats: {}, users: [], payments: [], view: 'pasqyra', filter: 'all', q: '', sort: 'afati', uq: '', py: String(new Date().getFullYear()), pm: '', open: null };
+
+    // ---------- ndihmës ----------
+    const esc = (v) => String(v == null ? '' : v).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+    const pad = (n) => String(n).padStart(2, '0');
+    function fmtD(v) { if (!v) return '—'; const d = v instanceof Date ? v : new Date(String(v).length === 10 ? v + 'T00:00:00' : v); return isNaN(d) ? '—' : pad(d.getDate()) + '.' + pad(d.getMonth() + 1) + '.' + d.getFullYear(); }
+    function fmtDT(v) { if (!v) return '—'; const d = new Date(v); return isNaN(d) ? '—' : fmtD(d) + ' ' + pad(d.getHours()) + ':' + pad(d.getMinutes()); }
+    function ymd(d) { return d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate()); }
+    function money(n) { return (Number(n) || 0).toLocaleString('sq-AL', { minimumFractionDigits: 0, maximumFractionDigits: 2 }) + ' €'; }
+    function ago(v) {
+      if (!v) return 'asnjëherë';
+      const diff = Date.now() - new Date(v).getTime();
+      if (diff < 3600e3) return 'para ' + Math.max(1, Math.round(diff / 60e3)) + ' min';
+      if (diff < DAY) return 'para ' + Math.round(diff / 3600e3) + ' orësh';
+      const d = Math.round(diff / DAY);
+      return d < 30 ? 'para ' + d + ' ditësh' : fmtD(v);
+    }
+    function addMonths(d, m) { const y = d.getFullYear(), mo = d.getMonth() + m; const last = new Date(y, mo + 1, 0).getDate(); return new Date(y, mo, Math.min(d.getDate(), last)); }
+    function endOfDayIso(d) { return new Date(d.getFullYear(), d.getMonth(), d.getDate(), 23, 59).toISOString(); }
+    const isTrial = (c) => /^prov/i.test(c.plan || '') || /^trial/i.test(c.plan || '');
+    const isDemo = (c) => /^demo/i.test(c.plan || '');
+    function daysLeft(c) { if (!c.expires_at) return null; return Math.ceil((new Date(c.expires_at).getTime() - Date.now()) / DAY); }
+    function status(c) {
+      const d = daysLeft(c);
+      if (!c.active) return { k: 'pezulluar', l: 'Pezulluar', cls: 'red' };
+      if (d !== null && d <= 0) return { k: 'skaduar', l: 'Skaduar', cls: 'red' };
+      if (d !== null && d <= 14) return { k: 'skadon', l: isTrial(c) ? 'Provë · skadon' : 'Skadon së shpejti', cls: 'amber' };
+      if (isDemo(c)) return { k: 'demo', l: 'Demo', cls: '' };
+      if (isTrial(c)) return { k: 'prove', l: 'Në provë', cls: 'blue' };
+      return { k: 'aktive', l: 'Aktive', cls: 'green' };
+    }
+    function afati(c) {
+      if (!c.expires_at) return '<span class="muted">pa afat</span>';
+      const d = daysLeft(c);
+      const t = d <= 0 ? 'skadoi para ' + Math.abs(d) + ' ditësh' : d === 1 ? 'nesër' : 'edhe ' + d + ' ditë';
+      return '<span class="nowrap">' + fmtD(c.expires_at) + '</span><span class="sub">' + t + '</span>';
+    }
+    const settingsOf = (id) => S.settings[id] || {};
+    const statsOf = (id) => S.stats[id] || {};
+    const usersOf = (id) => S.users.filter((u) => u.company_id === id);
+    const paymentsOf = (id) => S.payments.filter((p) => p.company_id === id);
+    const companyName = (id) => (S.companies.find((c) => c.id === id) || {}).name || '—';
+    const phoneOf = (c) => settingsOf(c.id).phone || '';
+    const lastLogin = (id) => usersOf(id).reduce((m, u) => (u.last_sign_in_at && (!m || u.last_sign_in_at > m) ? u.last_sign_in_at : m), null);
+
+    function toast(msg, err) { const t = $('toast'); t.textContent = msg; t.className = 'toast' + (err ? ' err' : ''); clearTimeout(toast.h); toast.h = setTimeout(() => t.classList.add('hidden'), err ? 6000 : 4000); }
+    function confirmBox(title, text, okLabel, danger) {
+      return new Promise((res) => {
+        const d = $('dConfirm');
+        $('cTitle').textContent = title; $('cText').textContent = text || '';
+        $('cOk').textContent = okLabel || 'Po'; $('cOk').className = 'btn ' + (danger ? 'danger' : 'primary');
+        d.returnValue = '';
+        d.onclose = () => res(d.returnValue === 'yes');
+        d.showModal();
+      });
+    }
+    async function callAdmin(body) {
+      const { data, error } = await sb.functions.invoke('admin-users', { body });
+      if (error) {
+        let msg = error.message;
+        try { const j = await error.context.json(); if (j && j.error) msg = j.error; } catch (_) {}
+        throw new Error(msg);
+      }
+      if (data && data.error) throw new Error(data.error);
+      return data;
+    }
+    const must = (r) => { if (r.error) throw new Error(r.error.message); return r.data; };
+
+    // ---------- hyrja ----------
+    async function boot() {
+      const { data } = await sb.auth.getSession();
+      if (data && data.session) return afterLogin(data.session.user);
+      showLogin();
+    }
+    function showLogin(msg) {
+      $('app').classList.add('hidden'); $('login').classList.remove('hidden');
+      $('lErr').classList.toggle('hidden', !msg); $('lErr').textContent = msg || '';
+      setTimeout(() => $('lEmail').focus(), 50);
+    }
+    $('loginForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      $('lBtn').disabled = true; $('lErr').classList.add('hidden');
+      const { data, error } = await sb.auth.signInWithPassword({ email: $('lEmail').value.trim(), password: $('lPass').value });
+      $('lBtn').disabled = false;
+      if (error) return showLogin(/invalid/i.test(error.message) ? 'Email ose fjalëkalim i gabuar.' : error.message);
+      $('lPass').value = '';
+      afterLogin(data.user);
+    });
+    async function afterLogin(user) {
+      const r = await sb.from('admins').select('user_id').eq('user_id', user.id).maybeSingle();
+      if (r.error || !r.data) { await sb.auth.signOut(); return showLogin('Kjo llogari nuk është administrator i Flotës.'); }
+      S.me = user;
+      $('meEmail').textContent = user.email || '';
+      $('login').classList.add('hidden'); $('app').classList.remove('hidden');
+      await load();
+    }
+    $('logout').addEventListener('click', async () => { await sb.auth.signOut(); S.me = null; closeDrawer(); showLogin(); });
+    $('refresh').addEventListener('click', () => load(true));
+
+    // ---------- të dhënat ----------
+    async function load(manual) {
+      try {
+        const [co, st, stats, users, pays] = await Promise.all([
+          sb.from('companies').select('*').order('created_at', { ascending: false }),
+          sb.from('company_settings').select('company_id, data'),
+          sb.rpc('admin_company_stats'),
+          sb.rpc('admin_users_overview'),
+          sb.from('payments').select('*').order('paid_at', { ascending: false }).order('created_at', { ascending: false }).limit(5000),
+        ]);
+        S.companies = must(co) || [];
+        S.settings = {}; (must(st) || []).forEach((s) => { S.settings[s.company_id] = s.data || {}; });
+        S.stats = {}; (must(stats) || []).forEach((s) => { S.stats[s.company_id] = s; });
+        S.users = must(users) || [];
+        S.payments = must(pays) || [];
+        render();
+        if (S.open) renderDrawer();
+        if (manual) toast('Të dhënat u rifreskuan.');
+      } catch (e) {
+        $('view').innerHTML = '<div class="card"><h3>Të dhënat nuk u lexuan</h3><p class="muted">' + esc(e.message) + '</p><button class="btn" id="retry">Provo përsëri</button></div>';
+        $('retry').onclick = () => load();
+      }
+    }
+
+    // ---------- skedat ----------
+    const TABS = [['pasqyra', 'Pasqyra'], ['kompanite', 'Kompanitë'], ['perdoruesit', 'Përdoruesit'], ['pagesat', 'Pagesat']];
+    function renderTabs() {
+      const n = { kompanite: S.companies.length, perdoruesit: S.users.length, pagesat: S.payments.length };
+      $('tabs').innerHTML = TABS.map(([k, l]) => '<button data-tab="' + k + '" class="' + (S.view === k ? 'on' : '') + '">' + l + (n[k] != null ? '<span class="n">' + n[k] + '</span>' : '') + '</button>').join('');
+    }
+    $('tabs').addEventListener('click', (e) => { const b = e.target.closest('[data-tab]'); if (!b) return; S.view = b.dataset.tab; render(); window.scrollTo(0, 0); });
+    function render() {
+      renderTabs();
+      const v = { pasqyra: viewDashboard, kompanite: viewCompanies, perdoruesit: viewUsers, pagesat: viewPayments }[S.view];
+      $('view').innerHTML = v();
+      bindView();
+    }
+    function goCompanies(filter) { S.view = 'kompanite'; S.filter = filter; S.q = ''; render(); window.scrollTo(0, 0); }
+
+    // ---------- pasqyra ----------
+    function viewDashboard() {
+      const cs = S.companies;
+      const by = (k) => cs.filter((c) => status(c).k === k);
+      const now = new Date();
+      const mKey = now.getFullYear() + '-' + pad(now.getMonth() + 1);
+      const monthPaid = S.payments.filter((p) => String(p.paid_at).startsWith(mKey)).reduce((s, p) => s + Number(p.amount || 0), 0);
+      const yearPaid = S.payments.filter((p) => String(p.paid_at).startsWith(String(now.getFullYear()))).reduce((s, p) => s + Number(p.amount || 0), 0);
+      const paying = cs.filter((c) => FILTERS.paguar(c)).length;
+      const expired = cs.filter((c) => ['skaduar', 'pezulluar'].includes(status(c).k)).sort((a, b) => String(b.expires_at).localeCompare(String(a.expires_at)));
+      const soon = by('skadon').sort((a, b) => String(a.expires_at).localeCompare(String(b.expires_at)));
+      const fresh = cs.filter((c) => Date.now() - new Date(c.created_at).getTime() < 14 * DAY);
+      const li = (c, right) => '<li data-co="' + esc(c.id) + '"><span class="nm">' + esc(c.name) + '</span>' + right + '</li>';
+      return '<div class="kpis">' +
+        kpi(cs.length, 'kompani gjithsej', '', 'all') +
+        kpi(cs.filter((c) => FILTERS.prove(c)).length, 'në provë', '', 'prove') +
+        kpi(paying, 'me pagesë, aktive', 'green', 'paguar') +
+        kpi(soon.length, 'skadojnë brenda 14 ditëve', soon.length ? 'amber' : '', 'skadon') +
+        kpi(expired.length, 'të skaduara / pezulluara', expired.length ? 'red' : '', 'skaduar') +
+        '<button class="kpi green" data-goto-pay><b>' + money(monthPaid) + '</b><span>arkëtuar këtë muaj</span></button>' +
+        '<button class="kpi green" data-goto-pay><b>' + money(yearPaid) + '</b><span>arkëtuar ' + now.getFullYear() + '</span></button>' +
+        '</div>' +
+        '<div class="grid2">' +
+          '<div class="card"><h3>Skadojnë brenda 14 ditëve</h3>' + (soon.length ? '<ul class="list">' + soon.map((c) => li(c, '<span class="pill amber">' + (isTrial(c) ? 'provë · ' : '') + fmtD(c.expires_at) + ' · ' + daysLeft(c) + ' ditë</span>')).join('') + '</ul>' : '<p class="empty">Asnjë.</p>') + '</div>' +
+          '<div class="card"><h3>Të skaduara / pezulluara</h3>' + (expired.length ? '<ul class="list">' + expired.map((c) => li(c, '<span class="pill red">' + (c.active ? 'skadoi ' + fmtD(c.expires_at) : 'pezulluar') + '</span>')).join('') + '</ul>' : '<p class="empty">Asnjë.</p>') + '</div>' +
+          '<div class="card"><h3>Regjistruar në 14 ditët e fundit</h3>' + (fresh.length ? '<ul class="list">' + fresh.map((c) => li(c, '<span class="small muted">' + fmtD(c.created_at) + ' · ' + esc(c.contact) + '</span>')).join('') + '</ul>' : '<p class="empty">Asnjë regjistrim i ri.</p>') + '</div>' +
+          '<div class="card"><h3>Pagesat e fundit</h3>' + (S.payments.length ? '<ul class="list">' + S.payments.slice(0, 8).map((p) => '<li data-co="' + esc(p.company_id) + '"><span class="nm">' + esc(companyName(p.company_id)) + '</span><span class="small muted">' + fmtD(p.paid_at) + '</span><b>' + money(p.amount) + '</b></li>').join('') + '</ul>' : '<p class="empty">Ende pa pagesa.</p>') + '</div>' +
+        '</div>';
+    }
+    const kpi = (n, l, cls, f) => '<button class="kpi ' + cls + '" data-goto="' + f + '"><b>' + n + '</b><span>' + l + '</span></button>';
+
+    // ---------- kompanitë ----------
+    const FILTERS = {
+      all: () => true,
+      prove: (c) => isTrial(c) && c.active && !(daysLeft(c) !== null && daysLeft(c) <= 0),
+      paguar: (c) => !isTrial(c) && !isDemo(c) && c.active && !(daysLeft(c) !== null && daysLeft(c) <= 0),
+      skadon: (c) => status(c).k === 'skadon',
+      skaduar: (c) => ['skaduar', 'pezulluar'].includes(status(c).k),
+    };
+    const FLABEL = [['all', 'Të gjitha'], ['prove', 'Në provë'], ['paguar', 'Me pagesë'], ['skadon', 'Skadojnë ≤ 14 ditë'], ['skaduar', 'Skaduar / pezulluar']];
+    function companyRows() {
+      const q = S.q.trim().toLowerCase();
+      let list = S.companies.filter(FILTERS[S.filter]).filter((c) => {
+        if (!q) return true;
+        const st = settingsOf(c.id);
+        return [c.name, c.contact, c.plan, c.notes, st.phone, st.nipt, st.city, st.company, ...usersOf(c.id).map((u) => u.email + ' ' + (u.full_name || ''))].join(' ').toLowerCase().includes(q);
+      });
+      const cmp = {
+        afati: (a, b) => (a.expires_at ? new Date(a.expires_at).getTime() : 9e15) - (b.expires_at ? new Date(b.expires_at).getTime() : 9e15),
+        regjistruar: (a, b) => String(b.created_at).localeCompare(String(a.created_at)),
+        emri: (a, b) => String(a.name).localeCompare(String(b.name), 'sq'),
+        hyrja: (a, b) => String(lastLogin(b.id) || '').localeCompare(String(lastLogin(a.id) || '')),
+      }[S.sort];
+      return list.sort(cmp);
+    }
+    function viewCompanies() {
+      const rows = companyRows();
+      const total = (id) => paymentsOf(id).reduce((s, p) => s + Number(p.amount || 0), 0);
+      return '<div class="toolbar">' +
+          '<input type="search" id="q" placeholder="Kërko emër, email, telefon, NIPT…" value="' + esc(S.q) + '">' +
+          '<select id="sort" aria-label="Rendit"><option value="afati">Rendit: afati më i afërt</option><option value="regjistruar">Rendit: regjistruar së fundi</option><option value="hyrja">Rendit: hyrja e fundit</option><option value="emri">Rendit: emri</option></select>' +
+          '<span class="sp"></span><button class="btn" id="csv">Eksporto CSV</button>' +
+        '</div>' +
+        '<div class="toolbar chips">' + FLABEL.map(([k, l]) => '<button class="chip ' + (S.filter === k ? 'on' : '') + '" data-f="' + k + '">' + l + '<span class="n">' + S.companies.filter(FILTERS[k]).length + '</span></button>').join('') + '</div>' +
+        '<div class="tw"><table><thead><tr><th>Kompania</th><th>Statusi</th><th>Paguar deri më</th><th>Regjistruar</th><th>Hyrja e fundit</th><th>Kontakti</th><th class="num">Përd. · Makina · Qira</th><th class="num">Paguar gjithsej</th></tr></thead><tbody>' +
+        (rows.length ? rows.map((c) => {
+          const st = status(c), s = settingsOf(c.id), x = statsOf(c.id);
+          const sub = [s.nipt, s.city].filter(Boolean).join(' · ');
+          return '<tr class="click" data-co="' + esc(c.id) + '"><td><span class="nm">' + esc(c.name) + '</span>' + (sub ? '<span class="sub">' + esc(sub) + '</span>' : '') + '</td>' +
+            '<td><span class="pill ' + st.cls + '">' + st.l + '</span>' + (c.plan ? '<span class="sub">' + esc(c.plan) + '</span>' : '') + '</td>' +
+            '<td>' + afati(c) + '</td>' +
+            '<td class="nowrap">' + fmtD(c.created_at) + '</td>' +
+            '<td class="nowrap">' + ago(lastLogin(c.id)) + '</td>' +
+            '<td>' + esc(c.contact) + (phoneOf(c) ? '<span class="sub">' + esc(phoneOf(c)) + '</span>' : '') + '</td>' +
+            '<td class="num">' + (x.users ?? usersOf(c.id).length) + ' · ' + (x.cars ?? 0) + ' · ' + (x.rentals ?? 0) + '</td>' +
+            '<td class="num">' + money(total(c.id)) + '</td></tr>';
+        }).join('') : '<tr><td colspan="8" class="empty">Asnjë kompani për këtë kërkim.</td></tr>') +
+        '</tbody></table></div>';
+    }
+    function exportCsv() {
+      const rows = companyRows();
+      const head = ['Kompania', 'Statusi', 'Plani', 'Paguar deri më', 'Ditë të mbetura', 'Regjistruar', 'Hyrja e fundit', 'Email', 'Telefon', 'NIPT', 'Qyteti', 'Përdorues', 'Makina', 'Qira', 'Paguar gjithsej (€)', 'Shënime'];
+      const q = (v) => '"' + String(v == null ? '' : v).replace(/"/g, '""') + '"';
+      const lines = [head.map(q).join(';')].concat(rows.map((c) => {
+        const s = settingsOf(c.id), x = statsOf(c.id);
+        return [c.name, status(c).l, c.plan, c.expires_at ? fmtD(c.expires_at) : 'pa afat', daysLeft(c) ?? '', fmtD(c.created_at), lastLogin(c.id) ? fmtD(lastLogin(c.id)) : '', c.contact, s.phone, s.nipt, s.city, x.users ?? '', x.cars ?? '', x.rentals ?? '', paymentsOf(c.id).reduce((t, p) => t + Number(p.amount || 0), 0), (c.notes || '').replace(/\n/g, ' | ')].map(q).join(';');
+      }));
+      const blob = new Blob(['﻿' + lines.join('\r\n')], { type: 'text/csv;charset=utf-8' });
+      const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'flota-kompanite-' + ymd(new Date()) + '.csv'; a.click();
+      setTimeout(() => URL.revokeObjectURL(a.href), 2000);
+    }
+
+    // ---------- përdoruesit ----------
+    function userActions(u) {
+      const active = u.active !== false;
+      return '<div class="acts"><button class="btn sm" data-pw="' + esc(u.id) + '">Fjalëkalim i ri</button><button class="btn sm" data-reset="' + esc(u.id) + '">Email rivendosjeje</button>' +
+        (u.id === (S.me && S.me.id) ? '' : '<button class="btn sm ' + (active ? 'danger' : '') + '" data-active="' + esc(u.id) + '" data-to="' + (active ? '0' : '1') + '">' + (active ? 'Çaktivizo' : 'Aktivizo') + '</button>') + '</div>';
+    }
+    function viewUsers() {
+      const q = S.uq.trim().toLowerCase();
+      const list = S.users.filter((u) => !q || [u.email, u.full_name, u.company_name].join(' ').toLowerCase().includes(q));
+      return '<div class="toolbar"><input type="search" id="uq" placeholder="Kërko email, emër ose kompani…" value="' + esc(S.uq) + '"></div>' +
+        '<div class="tw"><table><thead><tr><th>Përdoruesi</th><th>Kompania</th><th>Roli</th><th>Regjistruar</th><th>Hyrja e fundit</th><th>Veprime</th></tr></thead><tbody>' +
+        (list.length ? list.map((u) => {
+          const active = u.active !== false;
+          return '<tr><td><span class="nm">' + esc(u.full_name || u.email) + '</span><span class="sub">' + esc(u.email) + (u.email_confirmed ? '' : ' · email i pakonfirmuar') + '</span></td>' +
+            '<td>' + (u.company_id ? '<a href="#" data-co="' + esc(u.company_id) + '">' + esc(u.company_name || '—') + '</a>' : '<span class="muted">pa kompani</span>') + '</td>' +
+            '<td>' + (S.me && u.id === S.me.id ? 'Administrator' : u.role === 'owner' ? 'Pronar' : 'Staf') + (active ? '' : ' <span class="pill red">joaktiv</span>') + '</td>' +
+            '<td class="nowrap">' + fmtD(u.created_at) + '</td><td class="nowrap">' + ago(u.last_sign_in_at) + '</td><td>' + userActions(u) + '</td></tr>';
+        }).join('') : '<tr><td colspan="6" class="empty">Asnjë përdorues.</td></tr>') + '</tbody></table></div>';
+    }
+
+    // ---------- pagesat ----------
+    function viewPayments() {
+      const years = Array.from(new Set(S.payments.map((p) => String(p.paid_at).slice(0, 4)).concat([String(new Date().getFullYear())]))).sort().reverse();
+      const months = ['Janar', 'Shkurt', 'Mars', 'Prill', 'Maj', 'Qershor', 'Korrik', 'Gusht', 'Shtator', 'Tetor', 'Nëntor', 'Dhjetor'];
+      const list = S.payments.filter((p) => (!S.py || String(p.paid_at).startsWith(S.py)) && (!S.pm || String(p.paid_at).slice(5, 7) === S.pm));
+      const total = list.reduce((s, p) => s + Number(p.amount || 0), 0);
+      return '<div class="toolbar">' +
+          '<select id="py"><option value="">Të gjitha vitet</option>' + years.map((y) => '<option ' + (S.py === y ? 'selected' : '') + '>' + y + '</option>').join('') + '</select>' +
+          '<select id="pm"><option value="">Të gjithë muajt</option>' + months.map((m, i) => '<option value="' + pad(i + 1) + '" ' + (S.pm === pad(i + 1) ? 'selected' : '') + '>' + m + '</option>').join('') + '</select>' +
+          '<b style="margin-left:6px">' + list.length + ' pagesa · ' + money(total) + '</b><span class="sp"></span>' +
+          '<button class="btn primary" data-pay="">+ Regjistro pagesë</button>' +
+        '</div>' +
+        '<div class="tw"><table><thead><tr><th>Data</th><th>Kompania</th><th class="num">Shuma</th><th>Periudha</th><th>Mënyra</th><th>Shënim</th><th></th></tr></thead><tbody>' +
+        (list.length ? list.map((p) => '<tr><td class="nowrap">' + fmtD(p.paid_at) + '</td><td><a href="#" data-co="' + esc(p.company_id) + '">' + esc(companyName(p.company_id)) + '</a></td>' +
+          '<td class="num"><b>' + money(p.amount) + '</b></td><td class="nowrap">' + (p.period_from ? fmtD(p.period_from) + ' – ' + fmtD(p.period_to) : '—') + '</td>' +
+          '<td>' + esc(p.method) + '</td><td>' + esc(p.note) + '</td><td><button class="btn sm danger" data-delpay="' + esc(p.id) + '">Fshi</button></td></tr>').join('') : '<tr><td colspan="7" class="empty">Asnjë pagesë për këtë periudhë.</td></tr>') +
+        '</tbody></table></div>';
+    }
+
+    // ---------- lidhjet e ngjarjeve në pamje ----------
+    function bindView() {
+      const v = $('view');
+      v.querySelectorAll('[data-goto]').forEach((b) => b.onclick = () => goCompanies(b.dataset.goto));
+      v.querySelectorAll('[data-goto-pay]').forEach((b) => b.onclick = () => { S.view = 'pagesat'; S.py = String(new Date().getFullYear()); S.pm = ''; render(); });
+      const q = $('q'); if (q) { q.oninput = () => { S.q = q.value; const pos = q.selectionStart; render(); const n = $('q'); n.focus(); n.setSelectionRange(pos, pos); }; }
+      const so = $('sort'); if (so) { so.value = S.sort; so.onchange = () => { S.sort = so.value; render(); }; }
+      const uq = $('uq'); if (uq) { uq.oninput = () => { S.uq = uq.value; const pos = uq.selectionStart; render(); const n = $('uq'); n.focus(); n.setSelectionRange(pos, pos); }; }
+      const py = $('py'); if (py) py.onchange = () => { S.py = py.value; render(); };
+      const pm = $('pm'); if (pm) pm.onchange = () => { S.pm = pm.value; render(); };
+      const csv = $('csv'); if (csv) csv.onclick = exportCsv;
+      v.querySelectorAll('[data-f]').forEach((b) => b.onclick = () => { S.filter = b.dataset.f; render(); });
+    }
+    // klikimet e përbashkëta (pamja + paneli anësor)
+    document.addEventListener('click', async (e) => {
+      const t = e.target.closest('[data-co],[data-pw],[data-reset],[data-active],[data-pay],[data-delpay],[data-close]');
+      if (!t) return;
+      if (t.hasAttribute('data-close')) { t.closest('dialog').close(); return; }
+      if (t.dataset.co !== undefined && !t.closest('.drawer')) { e.preventDefault(); openDrawer(t.dataset.co); return; }
+      if (t.dataset.pw) return openPw(t.dataset.pw);
+      if (t.dataset.reset) return sendReset(t.dataset.reset);
+      if (t.dataset.active) return setActive(t.dataset.active, t.dataset.to === '1');
+      if (t.dataset.pay !== undefined) return openPay(t.dataset.pay || null);
+      if (t.dataset.delpay) return deletePayment(t.dataset.delpay);
+    });
+
+    // ---------- paneli i kompanisë ----------
+    function openDrawer(id) { S.open = id; renderDrawer(); $('drawer').classList.remove('hidden'); $('scrim').classList.remove('hidden'); document.body.style.overflow = 'hidden'; $('drawer').scrollTop = 0; }
+    function closeDrawer() { S.open = null; $('drawer').classList.add('hidden'); $('scrim').classList.add('hidden'); document.body.style.overflow = ''; }
+    $('scrim').addEventListener('click', closeDrawer);
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && S.open && !document.querySelector('dialog[open]')) closeDrawer(); });
+
+    function renderDrawer() {
+      const c = S.companies.find((x) => x.id === S.open);
+      if (!c) return closeDrawer();
+      const st = status(c), s = settingsOf(c.id), x = statsOf(c.id), us = usersOf(c.id), ps = paymentsOf(c.id);
+      const expVal = c.expires_at ? ymd(new Date(c.expires_at)) : '';
+      const paid = ps.reduce((t, p) => t + Number(p.amount || 0), 0);
+      $('drawer').innerHTML =
+        '<div class="hd"><h2>' + esc(c.name) + '</h2><span class="pill ' + st.cls + '">' + st.l + '</span><button class="btn sm" id="dClose" aria-label="Mbyll">✕</button></div>' +
+        '<div class="bd">' +
+          '<div class="card"><h3>Të dhënat</h3><dl class="kv">' +
+            '<dt>Regjistruar më</dt><dd>' + fmtDT(c.created_at) + '</dd>' +
+            '<dt>Paguar deri më</dt><dd>' + (c.expires_at ? fmtD(c.expires_at) + ' <span class="muted">(' + (daysLeft(c) <= 0 ? 'skaduar' : daysLeft(c) + ' ditë') + ')</span>' : 'pa afat') + '</dd>' +
+            '<dt>Kontakti</dt><dd>' + (c.contact ? '<a href="mailto:' + esc(c.contact) + '">' + esc(c.contact) + '</a>' : '—') + '</dd>' +
+            '<dt>Telefoni</dt><dd>' + (s.phone ? '<a href="tel:' + esc(String(s.phone).replace(/\s+/g, '')) + '">' + esc(s.phone) + '</a>' : '—') + '</dd>' +
+            (s.company ? '<dt>Emri ligjor</dt><dd>' + esc(s.company) + '</dd>' : '') +
+            '<dt>NIPT</dt><dd>' + esc(s.nipt || '—') + '</dd>' +
+            '<dt>Adresa</dt><dd>' + esc([s.address, s.city].filter(Boolean).join(', ') || '—') + '</dd>' +
+            '<dt>Hyrja e fundit</dt><dd>' + ago(lastLogin(c.id)) + '</dd>' +
+            '<dt>Përdorimi</dt><dd>' + (x.users ?? us.length) + ' përdorues · ' + (x.cars ?? 0) + ' makina · ' + (x.rentals ?? 0) + ' qira' + (x.last_activity ? ' · aktiv ' + ago(x.last_activity) : '') + '</dd>' +
+          '</dl></div>' +
+
+          '<form class="card" id="coForm"><h3>Abonimi dhe afati</h3>' +
+            '<div class="row2"><label class="f"><span>Plani</span><input type="text" id="coPlan" list="plans" value="' + esc(c.plan) + '" maxlength="60"></label>' +
+            '<label class="f"><span>Paguar deri më</span><input type="date" id="coExp" value="' + expVal + '"></label></div>' +
+            '<datalist id="plans"><option>Provë</option><option>Mujor</option><option>Vjetor</option><option>Demo</option></datalist>' +
+            '<div class="quick">' + [['+14 ditë', 0, 14], ['+1 muaj', 1, 0], ['+3 muaj', 3, 0], ['+6 muaj', 6, 0], ['+1 vit', 12, 0]].map(([l, m, d]) => '<button type="button" class="btn sm" data-m="' + m + '" data-d="' + d + '">' + l + '</button>').join('') + '<button type="button" class="btn sm" id="noExp">Pa afat</button></div>' +
+            '<label class="check"><input type="checkbox" id="coActive" ' + (c.active ? 'checked' : '') + '><span>Aktive <span class="muted small">(e pezulluar: stafi sheh vetëm në lexim)</span></span></label>' +
+            '<label class="f"><span>Kontakti (email)</span><input type="text" id="coContact" value="' + esc(c.contact) + '" maxlength="200"></label>' +
+            '<label class="f"><span>Shënime</span><textarea id="coNotes" maxlength="5000" placeholder="p.sh. marrëveshja për çmimin, kur të telefonohet…">' + esc(c.notes) + '</textarea></label>' +
+            '<div class="pwrow" style="margin:-4px 0 12px"><input type="text" id="noteAdd" placeholder="Shto një shënim me datën e sotme…" maxlength="500"><button type="button" class="btn" id="noteAddBtn">Shto</button></div>' +
+            '<button class="btn primary" id="coSave" type="submit">Ruaj ndryshimet</button>' +
+          '</form>' +
+
+          '<div class="card"><div class="toolbar" style="margin-bottom:4px"><h3 style="margin:0">Pagesat</h3><span class="sp"></span><b>' + money(paid) + '</b><button class="btn sm primary" data-pay="' + esc(c.id) + '">+ Pagesë</button></div>' +
+            (ps.length ? ps.map((p) => '<div class="item"><div class="grow"><div class="t">' + money(p.amount) + ' <span class="muted small">· ' + fmtD(p.paid_at) + ' · ' + esc(p.method) + '</span></div><div class="small muted">' + (p.period_from ? 'periudha ' + fmtD(p.period_from) + ' – ' + fmtD(p.period_to) : '') + (p.note ? ' · ' + esc(p.note) : '') + '</div></div><button class="btn sm danger" data-delpay="' + esc(p.id) + '">Fshi</button></div>').join('') : '<p class="empty">Ende pa pagesa.</p>') +
+          '</div>' +
+
+          '<div class="card"><h3>Përdoruesit dhe fjalëkalimet</h3>' +
+            (us.length ? us.map((u) => '<div class="item"><div class="grow"><div class="t">' + esc(u.full_name || u.email) + ' <span class="pill ' + (u.active === false ? 'red' : '') + '">' + (u.role === 'owner' ? 'Pronar' : 'Staf') + (u.active === false ? ' · joaktiv' : '') + '</span></div><div class="small muted">' + esc(u.email) + ' · hyrja e fundit ' + ago(u.last_sign_in_at) + '</div><div style="margin-top:6px">' + userActions(u) + '</div></div></div>').join('') : '<p class="empty">Kjo kompani nuk ka përdorues.</p>') +
+          '</div>' +
+        '</div>';
+
+      $('dClose').onclick = closeDrawer;
+      const exp = $('coExp');
+      $('drawer').querySelectorAll('.quick [data-m]').forEach((b) => b.onclick = () => {
+        const cur = exp.value ? new Date(exp.value + 'T00:00:00') : null;
+        const base = cur && cur > new Date() ? cur : new Date();
+        let d = addMonths(base, Number(b.dataset.m)); d.setDate(d.getDate() + Number(b.dataset.d));
+        exp.value = ymd(d);
+        $('coActive').checked = true;
+      });
+      $('noExp').onclick = () => { exp.value = ''; };
+      $('noteAddBtn').onclick = async () => {
+        const v = $('noteAdd').value.trim(); if (!v) return;
+        const btn = $('noteAddBtn'); btn.disabled = true;
+        const notes = fmtD(new Date()) + ': ' + v + (String(c.notes || '').trim() ? '\n' + c.notes : '');
+        try {
+          must(await sb.from('companies').update({ notes }).eq('id', c.id));
+          c.notes = notes;
+          const ta = $('coNotes'); ta.value = fmtD(new Date()) + ': ' + v + (ta.value.trim() ? '\n' + ta.value : '');
+          $('noteAdd').value = '';
+          toast('Shënimi u ruajt.');
+        } catch (err) { toast('Shënimi nuk u ruajt: ' + err.message, true); }
+        btn.disabled = false;
+      };
+      $('noteAdd').onkeydown = (e) => { if (e.key === 'Enter') { e.preventDefault(); $('noteAddBtn').click(); } };
+      $('coForm').onsubmit = async (e) => {
+        e.preventDefault();
+        const btn = $('coSave'); btn.disabled = true;
+        const patch = {
+          plan: $('coPlan').value.trim(),
+          expires_at: exp.value ? endOfDayIso(new Date(exp.value + 'T00:00:00')) : null,
+          active: $('coActive').checked,
+          contact: $('coContact').value.trim(),
+          notes: $('coNotes').value,
+        };
+        try {
+          must(await sb.from('companies').update(patch).eq('id', c.id));
+          Object.assign(c, patch);
+          toast('Ndryshimet u ruajtën.');
+          render(); renderDrawer();
+        } catch (err) { toast('Ruajtja dështoi: ' + err.message, true); btn.disabled = false; }
+      };
+    }
+
+    // ---------- fjalëkalimi ----------
+    let pwUser = null;
+    function genPassword() {
+      const words = ['Makina', 'Flota', 'Rruga', 'Dielli', 'Deti', 'Mali', 'Qiraja', 'Shtegu'];
+      const a = new Uint32Array(3); crypto.getRandomValues(a);
+      return words[a[0] % words.length] + '-' + String(1000 + (a[1] % 9000)) + '-' + 'abcdefghjkmnpqrstuvwxyz'[a[2] % 23] + 'abcdefghjkmnpqrstuvwxyz'[(a[2] >> 8) % 23];
+    }
+    function openPw(id) {
+      pwUser = S.users.find((u) => u.id === id); if (!pwUser) return;
+      $('pwWho').textContent = (pwUser.full_name ? pwUser.full_name + ' · ' : '') + pwUser.email + (pwUser.company_name ? ' · ' + pwUser.company_name : '');
+      $('pwVal').value = genPassword(); $('pwErr').classList.add('hidden'); $('pwSave').disabled = false;
+      $('dPw').showModal(); $('pwVal').select();
+    }
+    $('pwGen').onclick = () => { $('pwVal').value = genPassword(); $('pwVal').select(); };
+    $('fPw').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const pw = $('pwVal').value.trim();
+      if (pw.length < 8) { $('pwErr').textContent = 'Të paktën 8 shenja.'; $('pwErr').classList.remove('hidden'); return; }
+      $('pwSave').disabled = true;
+      try {
+        await callAdmin({ action: 'set_password', user_id: pwUser.id, password: pw });
+        $('dPw').close();
+        try { await navigator.clipboard.writeText(pw); } catch (_) {}
+        toast('Fjalëkalimi i ' + pwUser.email + ' u ndryshua: ' + pw + ' (u kopjua)');
+      } catch (err) { $('pwErr').textContent = err.message; $('pwErr').classList.remove('hidden'); $('pwSave').disabled = false; }
+    });
+
+    async function sendReset(id) {
+      const u = S.users.find((x) => x.id === id); if (!u) return;
+      if (!(await confirmBox('Dërgo email rivendosjeje?', 'Te ' + u.email + ' shkon një link për të vendosur vetë fjalëkalimin e ri.', 'Dërgo'))) return;
+      const { error } = await sb.auth.resetPasswordForEmail(u.email, { redirectTo: RESET_URL });
+      if (error) toast('Dërgimi dështoi: ' + error.message, true); else toast('Emaili u dërgua te ' + u.email + '.');
+    }
+    async function setActive(id, active) {
+      const u = S.users.find((x) => x.id === id); if (!u) return;
+      if (!active && !(await confirmBox('Të çaktivizohet ' + u.email + '?', 'Nuk do të mund të hyjë më në Flotë derisa ta aktivizoni përsëri.', 'Çaktivizo', true))) return;
+      try { await callAdmin({ action: 'set_active', user_id: id, active }); u.active = active; toast(active ? 'Llogaria u aktivizua.' : 'Llogaria u çaktivizua.'); render(); if (S.open) renderDrawer(); }
+      catch (err) { toast(err.message, true); }
+    }
+
+    // ---------- pagesa ----------
+    let payMonths = 1;
+    // Kompania që paguan për herë të parë del nga «Provë»: plani bëhet Mujor ose Vjetor sipas periudhës.
+    const newPlan = (c) => (c && (isTrial(c) || !String(c.plan || '').trim()) ? (payMonths >= 12 ? 'Vjetor' : 'Mujor') : null);
+    function payCompany() { return S.companies.find((c) => c.id === $('payCo').value); }
+    function payPeriod() {
+      const c = payCompany(); if (!c) return null;
+      const exp = c.expires_at ? new Date(c.expires_at) : null;
+      const base = exp && exp > new Date() ? exp : new Date();
+      const from = new Date(base.getFullYear(), base.getMonth(), base.getDate());
+      return { from, to: addMonths(from, payMonths), fromExp: !!(exp && exp > new Date()) };
+    }
+    function refreshPay() {
+      const p = payPeriod(); if (!p) return;
+      $('payPeriod').innerHTML = '<b>' + fmtD(p.from) + ' – ' + fmtD(p.to) + '</b> <span class="muted">' + (p.fromExp ? '(nga afati aktual, që klienti të mos humbasë ditë)' : '(nga sot)') + '</span>';
+      const c = payCompany();
+      $('payExtendLbl').textContent = 'Zgjat «paguar deri më» deri më ' + fmtD(p.to) + ' dhe aktivizo kompaninë' + (newPlan(c) ? ' (plani bëhet «' + newPlan(c) + '»)' : '');
+    }
+    function openPay(companyId) {
+      if (!S.companies.length) return toast('Nuk ka kompani.', true);
+      $('payCo').innerHTML = S.companies.slice().sort((a, b) => String(a.name).localeCompare(String(b.name), 'sq')).map((c) => '<option value="' + esc(c.id) + '">' + esc(c.name) + '</option>').join('');
+      $('payCo').value = companyId || S.open || S.companies[0].id;
+      $('payAmt').value = ''; $('payNote').value = ''; $('payDate').value = ymd(new Date()); $('payExtend').checked = true; $('payErr').classList.add('hidden'); $('paySave').disabled = false;
+      payMonths = 1; $('payMonths').querySelectorAll('.chip').forEach((b) => b.classList.toggle('on', b.dataset.m === '1'));
+      refreshPay();
+      $('dPay').showModal(); $('payAmt').focus();
+    }
+    $('payCo').onchange = refreshPay;
+    $('payMonths').addEventListener('click', (e) => { const b = e.target.closest('[data-m]'); if (!b) return; payMonths = Number(b.dataset.m); $('payMonths').querySelectorAll('.chip').forEach((x) => x.classList.toggle('on', x === b)); refreshPay(); });
+    $('fPay').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const amt = Number(String($('payAmt').value).replace(',', '.'));
+      const err = (m) => { $('payErr').textContent = m; $('payErr').classList.remove('hidden'); };
+      if (!(amt > 0)) return err('Shkruani shumën.');
+      const c = payCompany(), p = payPeriod();
+      $('paySave').disabled = true;
+      try {
+        must(await sb.from('payments').insert({ company_id: c.id, paid_at: $('payDate').value, amount: amt, currency: '€', period_from: ymd(p.from), period_to: ymd(p.to), method: $('payMethod').value, note: $('payNote').value.trim(), created_by: S.me.id }));
+        if ($('payExtend').checked) {
+          const patch = { expires_at: endOfDayIso(p.to), active: true };
+          if (newPlan(c)) patch.plan = newPlan(c);
+          must(await sb.from('companies').update(patch).eq('id', c.id));
+        }
+        $('dPay').close();
+        toast('Pagesa u regjistrua' + ($('payExtend').checked ? '; afati deri më ' + fmtD(p.to) : '') + '.');
+        await load();
+      } catch (ex) { err('Ruajtja dështoi: ' + ex.message); $('paySave').disabled = false; }
+    });
+    async function deletePayment(id) {
+      const p = S.payments.find((x) => x.id === id); if (!p) return;
+      if (!(await confirmBox('Të fshihet pagesa?', money(p.amount) + ' · ' + companyName(p.company_id) + ' · ' + fmtD(p.paid_at) + '. Afati i kompanisë nuk ndryshon vetë.', 'Fshi', true))) return;
+      try { must(await sb.from('payments').delete().eq('id', id)); toast('Pagesa u fshi.'); await load(); }
+      catch (err) { toast(err.message, true); }
+    }
+
+    boot();
+  })();
+  </script>
+</body>
+</html>
