@@ -1,8 +1,8 @@
 {
-    "app":  "flota",
-    "version":  "1.3.3",
-    "released":  "2026-10-12",
-    "windows":  "https://apps.tufa.al/downloads/Flota-Setup-1.3.3.exe",
-    "android":  "https://apps.tufa.al/downloads/Flota-1.3.3.apk",
-    "notes":  "Ngarkimi i dokumenteve nga telefoni: zgjidh «Fotografo», «Zgjidh nga galeria» ose PDF, si te «Skano dokumentin». Te klienti: «Patentë» si lloj dokumenti, krahas ID-së dhe pasaportës."
+    "app": "flota",
+    "version": "1.3.4",
+    "released": "2026-10-15",
+    "windows": "https://apps.tufa.al/downloads/Flota-Setup-1.3.4.exe",
+    "android": "https://apps.tufa.al/downloads/Flota-1.3.3.apk",
+    "notes": "Para skanimit të parë të dokumentit shfaqet një njoftim për mënyrën si përpunohet fotoja dhe kërkohet pëlqimi juaj; mund të vazhdoni edhe duke i plotësuar fushat me dorë."
 }
