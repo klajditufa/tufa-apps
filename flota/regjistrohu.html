@@ -1,0 +1,233 @@
+<!doctype html>
+<html lang="sq">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Krijo llogarinë — Flota</title>
+  <meta name="description" content="Krijo llogarinë e kompanisë tënde rent-a-car në Flota: 14 ditë provë falas, pa kartë. E njëjta llogari në Windows, Android, iPhone, iPad dhe Mac.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/site.css">
+  <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+  <style>
+    .reg { display: grid; grid-template-columns: 1fr 440px; grid-template-areas: "intro card" "perks card"; grid-template-rows: auto 1fr; column-gap: 48px; row-gap: 0; align-items: start; padding: 48px 20px 64px; }
+    .reg .intro { grid-area: intro; } .reg .card { grid-area: card; } .reg .perks { grid-area: perks; margin-top: 6px; }
+    .reg .sub { color: var(--blue); font-weight: 700; margin-bottom: 10px; }
+    .reg .lead { font-size: 1.1rem; color: var(--muted); max-width: 46ch; }
+    .perks { list-style: none; padding: 0; margin: 22px 0 0; display: grid; gap: 12px; }
+    .perks li { position: relative; padding-left: 32px; }
+    .perks li::before { content: ""; position: absolute; left: 0; top: 4px; width: 20px; height: 20px; border-radius: 50%; background: var(--green-soft) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%231e7a46' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12.5l4.5 4.5L19 7.5'/%3E%3C/svg%3E") center / 13px no-repeat; }
+    .card { border: 1px solid var(--line); border-radius: 16px; padding: 28px; background: #fff; box-shadow: 0 10px 30px rgba(20, 39, 95, .07); }
+    .card h2 { font-size: 1.35rem; margin-bottom: 4px; }
+    .card label { display: block; font-weight: 600; font-size: .95rem; margin: 14px 0 6px; color: var(--ink); }
+    .card label .opt { font-weight: 500; color: var(--muted); }
+    .card input[type=text], .card input[type=email], .card input[type=tel], .card input[type=password] {
+      width: 100%; padding: 12px 14px; border: 1px solid #c9cfdb; border-radius: 10px; font: inherit; font-size: 16px; background: #fff; color: var(--text);
+    }
+    .card input:focus { outline: none; border-color: var(--blue); box-shadow: 0 0 0 3px var(--blue-soft); }
+    .pw { position: relative; }
+    .pw input { padding-right: 76px; }
+    .pw button { position: absolute; right: 8px; top: 50%; transform: translateY(-50%); border: 0; background: none; color: var(--blue); font: inherit; font-size: .88rem; font-weight: 700; cursor: pointer; padding: 6px 8px; }
+    .card label.terms { display: flex; gap: 10px; align-items: flex-start; margin: 16px 0 0; font-size: .92rem; font-weight: 500; color: var(--muted); }
+    .terms input { margin-top: 4px; width: 18px; height: 18px; flex: none; accent-color: var(--ink); }
+    .submit { margin-top: 18px; width: 100%; padding: 14px; border: 0; border-radius: 10px; background: var(--ink); color: #fff; font: inherit; font-weight: 800; font-size: 1.02rem; cursor: pointer; }
+    .submit:hover { background: var(--blue); }
+    .submit[disabled] { opacity: .6; cursor: default; }
+    .msg { margin-top: 14px; padding: 12px 14px; border-radius: 10px; font-size: .95rem; }
+    .msg.err { background: #fdecec; color: #8a1c1c; }
+    .msg.ok { background: var(--green-soft); color: #1b5e2a; }
+    .small { font-size: .9rem; color: var(--muted); margin: 14px 0 0; }
+    .hp { position: absolute; left: -5000px; width: 1px; height: 1px; overflow: hidden; }
+    .done-head { display: flex; gap: 14px; align-items: flex-start; }
+    .done-head .ic { flex: none; width: 44px; height: 44px; border-radius: 12px; background: var(--green-soft); display: grid; place-items: center; }
+    .done .platforms { flex-direction: column; align-items: stretch; }
+    .done .platforms .btn { justify-content: flex-start; }
+    .hidden { display: none !important; }
+    @media (max-width: 900px) { .reg { grid-template-columns: 1fr; grid-template-areas: "intro" "card" "perks"; grid-template-rows: auto; row-gap: 24px; padding-top: 28px; } .reg .perks { margin-top: 4px; } }
+  </style>
+</head>
+<body>
+  <header class="top">
+    <div class="wrap">
+      <a class="brand" href="../"><span class="mark">T</span> TUFA Apps</a>
+      <nav><a href="./">Flota</a><a href="./#shkarko">Shkarko</a><a href="ndihma.html">Ndihmë</a></nav>
+    </div>
+  </header>
+
+  <main class="wrap reg">
+    <div class="intro">
+      <div class="sub">Flota · për kompanitë rent-a-car</div>
+      <h1>Krijo llogarinë e kompanisë</h1>
+      <p class="lead">Një minutë: emri i kompanisë, emaili dhe një fjalëkalim. Pastaj hyni në Flota nga kompjuteri ose telefoni.</p>
+    </div>
+    <ul class="perks">
+        <li><strong>14 ditë provë falas</strong>, pa kartë dhe pa detyrim.</li>
+        <li>E njëjta llogari në Windows, Android, iPhone, iPad dhe Mac.</li>
+        <li>Stafin e shtoni vetë nga Cilësimet, secili me emailin e vet.</li>
+        <li>Të dhënat ruhen të koduara në cloud (BE) dhe i përkasin kompanisë suaj.</li>
+    </ul>
+
+    <section class="card">
+      <form id="regForm" novalidate>
+        <h2>Regjistrimi</h2>
+        <p class="small" style="margin-top:0">Llogaria e parë është e pronarit ose administratorit të kompanisë.</p>
+
+        <label for="company">Emri i kompanisë (rent-a-car)</label>
+        <input id="company" type="text" required autocomplete="organization" maxlength="120">
+
+        <label for="name">Emri dhe mbiemri juaj</label>
+        <input id="name" type="text" required autocomplete="name" maxlength="120">
+
+        <label for="phone">Telefoni <span class="opt">(opsional)</span></label>
+        <input id="phone" type="tel" autocomplete="tel" maxlength="40" placeholder="+355 6…">
+
+        <label for="email">Email</label>
+        <input id="email" type="email" required autocomplete="email" maxlength="200">
+
+        <label for="password">Fjalëkalimi (të paktën 8 shenja)</label>
+        <div class="pw">
+          <input id="password" type="password" required minlength="8" autocomplete="new-password">
+          <button type="button" id="togglePw" aria-controls="password">Shfaq</button>
+        </div>
+
+        <div class="hp" aria-hidden="true"><label for="website">Website</label><input id="website" type="text" tabindex="-1" autocomplete="off"></div>
+
+        <label class="terms"><input id="terms" type="checkbox" required>
+          <span>Pranoj <a href="kushtet.html" target="_blank">Kushtet e përdorimit</a> dhe <a href="privatesia.html" target="_blank">Politikën e privatësisë</a>.</span></label>
+
+        <button class="submit" id="submitBtn" type="submit">Krijo llogarinë — 14 ditë falas</button>
+        <div id="msg" class="msg hidden" role="alert"></div>
+        <p class="small">Keni llogari? Hyni direkt në aplikacion. Keni harruar fjalëkalimin? <a href="fjalekalimi.html">Fjalëkalim i ri</a>.</p>
+      </form>
+
+      <div id="checkEmail" class="hidden">
+        <div class="done-head">
+          <div class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1e7a46" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3.5 6.5 8.5 6 8.5-6"/></svg></div>
+          <div><h2>Kontrolloni emailin</h2><p>Ju dërguam një link konfirmimi te <strong class="em"></strong>. Hapeni, pastaj hyni në Flota me emailin dhe fjalëkalimin.</p></div>
+        </div>
+      </div>
+
+      <div id="done" class="done hidden">
+        <div class="done-head">
+          <div class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1e7a46" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div>
+          <div>
+            <h2>Llogaria u krijua</h2>
+            <p style="margin:0"><strong id="doneCompany"></strong> — prova falas deri më <strong id="doneUntil"></strong>.</p>
+          </div>
+        </div>
+        <p style="margin-top:16px">Tani shkarkoni Flotën dhe hyni me <strong class="em"></strong> dhe fjalëkalimin që sapo vendosët:</p>
+        <div class="platforms">
+          <a class="btn primary" data-os="windows" href="./#shkarko">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 5.5 10.5 4.4v7.1H3zm0 13 7.5 1.1v-7H3zm8.5 1.3L21 21v-8.4h-9.5zm0-15.6v7.3H21V3z"/></svg>
+            <span class="t">Windows 10 / 11<small>instaluesi nga apps.tufa.al</small></span>
+          </a>
+          <a class="btn" data-os="android" href="https://play.google.com/store/apps/details?id=consulting.tufa.flota" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4.6 2.3c-.3.3-.5.8-.5 1.4v16.6c0 .6.2 1.1.5 1.4l9.3-9.7zm10.5 10.9 2.9 3-11.3 6.4c-.5.3-1 .3-1.4.1zm3.9-3.8L15.6 7.4 6.6 2.3c.4-.2.9-.2 1.4.1zm.8.5 2.5 1.4c.9.5.9 1.3 0 1.8l-2.5 1.4-3.1-3.3z"/></svg>
+            <span class="t">Google Play<small>Android</small></span>
+          </a>
+          <a class="btn" data-os="ios mac" href="https://apps.apple.com/app/id6818728912" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="6.5" y="2.5" width="11" height="19" rx="2.5"/><path d="M10.5 18.5h3"/></svg>
+            <span class="t">App Store<small>iPhone, iPad dhe Mac</small></span>
+          </a>
+        </div>
+        <p class="small">Stafin e shtoni nga <strong>Cilësimet → Përdoruesit</strong> në aplikacion. Pyetje? <a href="mailto:info@tufa.consulting">info@tufa.consulting</a> · +355 69 60 52 163</p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <span>© <span id="viti"></span> TUFA Consult</span>
+      <a href="./">Flota</a>
+      <a href="privatesia.html">Politika e privatësisë</a>
+      <a href="kushtet.html">Kushtet e përdorimit</a>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+  <script>
+    document.getElementById('viti').textContent = new Date().getFullYear();
+    const $ = (id) => document.getElementById(id);
+    const say = (text, ok) => { const m = $('msg'); m.textContent = text; m.className = 'msg ' + (ok ? 'ok' : 'err'); };
+    const hideMsg = () => $('msg').classList.add('hidden');
+
+    // Thekson butonin e sistemit nga i cili po shikohet faqja.
+    (function () {
+      var ua = navigator.userAgent, os = /Android/i.test(ua) ? 'android' : /iPhone|iPad|iPod/i.test(ua) ? 'ios' : /Macintosh/i.test(ua) ? 'mac' : /Windows/i.test(ua) ? 'windows' : '';
+      if (os) document.querySelectorAll('[data-os~="' + os + '"]').forEach(function (b) { b.classList.add('me'); });
+    })();
+
+    $('togglePw').addEventListener('click', () => {
+      const p = $('password'), show = p.type === 'password';
+      p.type = show ? 'text' : 'password';
+      $('togglePw').textContent = show ? 'Fshih' : 'Shfaq';
+    });
+
+    const sb = supabase.createClient(
+      'https://pdvfqddtmfsxhmqlxpfr.supabase.co',
+      'sb_publishable_bg5DxVYaWFHXpBQcSCbTwQ_msE0WFpR',
+      { auth: { flowType: 'implicit', persistSession: false, autoRefreshToken: false, detectSessionInUrl: false } }
+    );
+
+    function errorText(error) {
+      const m = (error && error.message) || '';
+      if (/already registered|already exists|User already/i.test(m)) return 'Ky email ka tashmë një llogari në Flota. Hyni në aplikacion, ose kërkoni fjalëkalim të ri te «Fjalëkalim i ri».';
+      if (/password/i.test(m) && /(short|least|weak|characters)/i.test(m)) return 'Fjalëkalimi është shumë i dobët. Përdorni të paktën 8 shenja, me shkronja dhe shifra.';
+      if (/invalid.*email|email.*invalid|valid email/i.test(m)) return 'Emaili nuk duket i saktë.';
+      if (/rate limit|too many|security purposes/i.test(m)) return 'Shumë përpjekje në pak kohë. Provoni sërish pas disa minutash.';
+      if (/fetch|network/i.test(m)) return 'Nuk u lidh me serverin. Kontrolloni internetin dhe provoni sërish.';
+      return 'Regjistrimi nuk u krye: ' + m;
+    }
+
+    $('regForm').addEventListener('submit', async (e) => {
+      e.preventDefault(); hideMsg();
+      const company = $('company').value.trim(), name = $('name').value.trim(), phone = $('phone').value.trim();
+      const email = $('email').value.trim().toLowerCase(), password = $('password').value;
+      if (!company) { $('company').focus(); return say('Shkruani emrin e kompanisë.'); }
+      if (!name) { $('name').focus(); return say('Shkruani emrin tuaj.'); }
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { $('email').focus(); return say('Emaili nuk duket i saktë.'); }
+      if (password.length < 8) { $('password').focus(); return say('Fjalëkalimi duhet të ketë të paktën 8 shenja.'); }
+      if (!$('terms').checked) return say('Për të vazhduar, pranoni Kushtet dhe Politikën e privatësisë.');
+      document.querySelectorAll('.em').forEach((x) => x.textContent = email);
+      if ($('website').value) { $('regForm').classList.add('hidden'); $('checkEmail').classList.remove('hidden'); return; } // bot
+
+      $('submitBtn').disabled = true; $('submitBtn').textContent = 'Duke krijuar llogarinë…';
+      try {
+        const { data, error } = await sb.auth.signUp({
+          email, password,
+          options: { data: { full_name: name, company_name: company }, emailRedirectTo: 'https://apps.tufa.al/flota/' },
+        });
+        if (error) throw error;
+        // Supabase kthen përdorues pa identitete kur emaili ekziston dhe konfirmimi është i aktivizuar.
+        if (data.user && Array.isArray(data.user.identities) && data.user.identities.length === 0) throw { message: 'User already registered' };
+        if (!data.session) { $('regForm').classList.add('hidden'); $('checkEmail').classList.remove('hidden'); return; }
+
+        // Kompania krijohet nga databaza (prova 14 ditë). Plotësojmë të dhënat e kontratës me emrin, emailin dhe telefonin.
+        let until = new Date(Date.now() + 14 * 864e5);
+        try {
+          const { data: prof } = await sb.from('profiles').select('company_id').eq('id', data.user.id).single();
+          if (prof && prof.company_id) {
+            await sb.from('company_settings').upsert(
+              { company_id: prof.company_id, data: { tradeName: company, company: company, phone: phone, email: email } },
+              { onConflict: 'company_id', ignoreDuplicates: true });
+            const { data: comp } = await sb.from('companies').select('expires_at').eq('id', prof.company_id).single();
+            if (comp && comp.expires_at) until = new Date(comp.expires_at);
+          }
+        } catch (_) { /* jo kritike */ }
+        await sb.auth.signOut();
+
+        $('doneCompany').textContent = company;
+        const dd = (n) => String(n).padStart(2, '0');
+        $('doneUntil').textContent = dd(until.getDate()) + '.' + dd(until.getMonth() + 1) + '.' + until.getFullYear();
+        $('regForm').classList.add('hidden'); $('done').classList.remove('hidden');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } catch (err) {
+        say(errorText(err));
+      } finally {
+        $('submitBtn').disabled = false; $('submitBtn').textContent = 'Krijo llogarinë — 14 ditë falas';
+      }
+    });
+  </script>
+</body>
+</html>
