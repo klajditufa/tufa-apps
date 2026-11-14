@@ -2,7 +2,7 @@
 
 Faqja e aplikacioneve të TUFA Consult (katalogu, shkarkimet, privatësia dhe kushtet).
 
-- `index.html` — katalogu i aplikacioneve
+- `index.html` — katalogu i aplikacioneve (AutoSales ERP hapet te `tufa.al/autosales/`, kodi i tij rri te repo `tufa-al`)
 - `flota/` — faqja e Flotës (`index.html`), `privatesia.html`, `kushtet.html`, `latest.json` (versioni aktual, për përditësime automatike)
 - `downloads/` — instaluesit (`Flota-Setup-x.y.z.exe`, `Flota-x.y.z.apk`)
 - `assets/` — stili, ikona, pamjet
